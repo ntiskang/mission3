@@ -363,8 +363,6 @@ MAC 연산은 N×N 행렬의 모든 위치에서 한 번씩 곱셈을 수행하�
 
 ## 5. 전체 증거자료 목록
 
-> 아래 22개 파일명은 **3절의 이미지 링크와 철자·번호·확장자까지 정확히 동일**하다. PNG는 실행 결과를 실제 캡처하여 `evidence`에 저장해야 한다.
-
 | 번호 | 파일명 | 증명할 내용 |
 |---:|---|---|
 | 01 | `01_project_directory.png` | 프로젝트 폴더 구성 |
@@ -389,30 +387,6 @@ MAC 연산은 N×N 행렬의 모든 위치에서 한 번씩 곱셈을 수행하�
 | 20 | `20_final_validation.png` | 최종 실행 검증 |
 | 21 | `21_git_push.png` | Git 커밋 및 업로드 |
 | 22 | `22_github_evidence.png` | GitHub 증거자료 확인 |
-
-### 5.1 증거자료 누락 확인 (PowerShell)
-
-```powershell
-Get-ChildItem .\evidence -Filter *.png | Sort-Object Name | Select-Object Name, Length
-```
-
-README의 이미지 링크와 실제 PNG 파일이 일치하는지 확인하려면 다음 명령을 실행한다.
-
-```powershell
-@'
-import pathlib
-import re
-readme = pathlib.Path('README.md').read_text(encoding='utf-8')
-links = re.findall(r'!\[[^]]*\]\(evidence/([^)]*\.png)\)', readme)
-files = {p.name for p in pathlib.Path('evidence').glob('*.png')}
-print('README 이미지 링크:', len(links))
-print('중복 링크:', sorted({x for x in links if links.count(x) > 1}))
-print('아직 캡처하지 않은 파일:', sorted(set(links) - files))
-print('README에 링크가 없는 PNG:', sorted(files - set(links)))
-'@ | python -
-```
-
-캡처가 완료되면 `아직 캡처하지 않은 파일` 목록이 비어 있어야 한다. GitHub에 Push하기 전에 이 검사를 다시 수행한다.
 
 ## 6. 제출 전 최종 점검
 
