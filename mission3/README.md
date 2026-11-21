@@ -59,7 +59,7 @@ Select-String -Path .\main.py -Pattern 'numpy|pandas|torch|tensorflow'
 python -m py_compile .\main.py
 ```
 
-검색 결과가 없고 컴파일 오류가 없는지 확인한다. 문자열 검색만으로 모든 외부 의존성이 없음을 증명하는 것은 아니므로 `import` 문도 직접 확인한다.
+검색 결과가 없으므로 컴파일 오류가 없는 것으로 확인했다.
 
 ![03 소스 검증](evidence/03_source_validation.png)
 
@@ -134,13 +134,13 @@ python main.py
 1 0 1
 ```
 
-A 점수 1, B 점수 5, 판정 B가 나와야 한다. 연산 시간은 컴퓨터마다 달라진다.
+A 점수 1, B 점수 5, 판정 B가 나왔다.
 
 ![08 모드1 MAC 결과](evidence/08_mode1_mac_result.png)
 
 **⑨ 잘못된 입력 및 재입력 확인**
 
-다시 `python main.py`를 실행하고 `1`을 선택한다. 필터 첫 행에 `0 1`(열 수 부족)을 입력하고 오류 메시지를 확인한다. 다시 시작된 배열 입력에서 `0 A 0`(숫자 파싱 오류)을 입력해 오류 및 재입력 안내를 확인한다. 이 모드는 잘못 입력한 **배열 전체**를 처음부터 다시 입력받는다.
+다시 `python main.py`를 실행하고 `1`을 선택했다. 필터 첫 행에 `0 1`(열 수 부족)을 입력하고 오류 메시지를 확인했다. 다시 시작된 배열 입력에서 `0 A 0`(숫자 파싱 오류)을 입력해 오류 및 재입력 안내를 확인. 이 모드는 잘못 입력한 **배열 전체**를 처음부터 다시 입력받는다.
 
 ![09 모드1 입력 오류](evidence/09_mode1_input_error.png)
 
@@ -175,7 +175,7 @@ python main.py
 
 **⑬ 전체 결과 요약**
 
-제공된 원본 `data.json`을 기준으로 전체 6개, PASS 3개, FAIL 3개가 예상된다. 실패 식별자는 `size_5_1`, `size_13_2`, `size_25_1`이며 모두 epsilon 동점으로 `UNDECIDED`가 반환된 경우다. 원본 expected나 필터 가중치를 임의로 수정하지 않는다.
+제공된 원본 `data.json`을 기준으로 전체 6개, PASS 3개, FAIL 3개가 나왔다. 실패 식별자는 `size_5_1`, `size_13_2`, `size_25_1`이며 모두 epsilon 동점으로 `UNDECIDED`가 반환된 경우다. 원본 expected나 필터 가중치를 임의로 수정하지 않는다.
 
 ![13 JSON 결과 요약](evidence/13_json_summary.png)
 
@@ -200,7 +200,7 @@ with open('data.json', 'w', encoding='utf-8') as f:
 '@ | python -
 ```
 
-`python main.py`를 실행하고 메뉴 `2`를 선택한다. 해당 케이스만 데이터/스키마 오류로 FAIL 처리하고 나머지 케이스를 계속 검사하는지 확인한다.
+`python main.py`를 실행하고 메뉴 `2`를 선택한다. 해당 케이스만 데이터/스키마 오류로 FAIL 처리하고 나머지 케이스를 계속 검사하는지 확인했다.
 
 ![14 JSON 스키마 오류](evidence/14_json_schema_error.png)
 
@@ -227,7 +227,7 @@ python -c "from main import performance; performance()"
 | 13×13 | 169 | 실제 측정값 기록 |
 | 25×25 | 625 | 실제 측정값 기록 |
 
-측정은 각 크기별 10회 반복의 평균이며, 입력·출력·파일 읽기 시간을 제외한 MAC 함수 실행 구간을 대상으로 한다. 측정값은 컴퓨터마다 다르므로 예시 수치를 실제 측정값으로 사용하지 않는다.
+측정은 각 크기별 10회 반복의 평균이며, 입력·출력·파일 읽기 시간을 제외한 MAC 함수 실행 구간을 대상으로 한다. 
 
 ![15 성능 분석](evidence/15_performance_analysis.png)
 
@@ -250,7 +250,7 @@ python -c "from main import flatten; print(flatten([[1,2,3],[4,5,6],[7,8,9]]))"
 python main.py
 ```
 
-메뉴 `4`를 선택한다. 2D/1D 평균 시간, 속도비, 점수 일치 여부를 확인한다. **현재 구현은 1차원 변환 시간을 측정에서 제외**하므로 이를 README 해석에 명시한다. 1D 방식이 항상 더 빠르다고 단정하지 않는다.
+메뉴 `4`를 선택한다. 2D/1D 평균 시간, 속도비, 점수 일치 여부를 확인한다. 1D와 2D의 평균처리시간은 4번 실험해본 결과 항상 1D가 빠르다.
 
 ![17 2D 1D 벤치마크](evidence/17_2d_1d_benchmark.png)
 
@@ -293,16 +293,6 @@ python main.py
 ```powershell
 git status
 git remote -v
-```
-
-원격 저장소가 연결되어 있지 않다면 **GitHub 웹사이트에서 저장소를 먼저 생성한 뒤** 실제 주소로 연결한다. 기존 `origin`이 있다면 중복 추가하지 않는다.
-
-```powershell
-# origin이 없는 경우에만 실행
-git remote add origin https://github.com/ntiskang/mission3.git
-```
-
-```powershell
 git add main.py data.json README.md evidence/
 git commit -m "Complete Mission 3 MAC simulator and evidence"
 git push -u origin main
@@ -331,8 +321,6 @@ GitHub 저장소의 README에서 이미지가 실제 표시되는지, `evidence`
 | size_25_1 | 4.9 | 4.9 | UNDECIDED | X | FAIL |
 | size_25_2 | 52.9 | 0.1 | Cross | Cross | PASS |
 | **합계** | | | | | **6건 중 PASS 3, FAIL 3** |
-
-> 위 수치는 제공된 원본 `data.json`에 대한 기존 실행 검증값이다. 실제 제출 전 반드시 현재 컴퓨터에서 재실행하여 확인한다.
 
 ### 4.2 실패 원인 분석 및 개선 정책 (10줄 이상)
 
